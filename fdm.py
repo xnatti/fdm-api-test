@@ -19,6 +19,8 @@ headers = {
 }
 
 accessTokens = {}
+fdm_info = {}
+
 
 def getNewTokens():
  response = requests.post('https://' + cfg.fdm_ip + '/api/fdm/latest/fdm/token', data=json.dumps(fdm_password_grant), headers=headers, verify=False)
@@ -48,3 +50,19 @@ def refreshToken():
  for item in responseJSON:
   accessTokens[item] = responseJSON[item]
  accessTokens['datetime'] = datetime.today()
+
+
+
+def getPolicyID():
+ response = requests.get('https://' + cfg.fdm_ip + '/api/fdm/latest/policy/accesspolicies', headers=headers, verify=False)
+ responseJSON = json.loads(bytes.decode(response.content))
+ fdm_info['policy_URI'] = responseJSON['items'][0]['links']['self']
+ fdm_info['policy_ID'] = responseJSON['items'][0]['id']
+
+
+dlist = []
+
+def readconfigfile():
+ with open('config.txt') as jsonfile:
+  for line in jsonfile:
+   dlist.append(json.loads(line))
