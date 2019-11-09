@@ -2,6 +2,7 @@ import config as cfg
 import json
 import requests
 import pprint
+from datetime import datetime
 
 pp = pprint.PrettyPrinter(indent = 4)
 
@@ -24,3 +25,6 @@ def getNewTokens():
  responseJSON = json.loads(bytes.decode(response.content))
  for item in responseJSON:
   accessTokens[item] = responseJSON[item]
+ accessTokens['datetime'] = datetime.today()
+
+
