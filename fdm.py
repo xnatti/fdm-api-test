@@ -17,5 +17,10 @@ headers = {
  'Content-Type': 'application/json'
 }
 
-response = requests.post('https://' + cfg.fdm_ip + '/api/fdm/latest/fdm/token', data=json.dumps(fdm_password_grant), headers=headers, verify=False)
+accessTokens = {}
 
+def getNewTokens():
+ response = requests.post('https://' + cfg.fdm_ip + '/api/fdm/latest/fdm/token', data=json.dumps(fdm_password_grant), headers=headers, verify=False)
+ responseJSON = json.loads(bytes.decode(response.content))
+ for item in responseJSON:
+  accessTokens[item] = responseJSON[item]
